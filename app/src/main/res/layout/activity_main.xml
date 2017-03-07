@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.evfrosiniyazerminova.android_tp.MainActivity">
+
+    <TextView
+        android:id="@+id/newsTitle"
+        android:layout_width="363dp"
+        android:layout_height="46dp"
+        android:text="Title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.523"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.034"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="19dp" />
+
+    <TextView
+        android:id="@+id/newsText"
+        android:layout_width="349dp"
+        android:layout_height="269dp"
+        android:text="news"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.285"
+        app:layout_constraintHorizontal_bias="0.514"
+        android:layout_marginTop="24dp"
+        android:layout_below="@+id/newsTitle"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/newsDate"
+        android:layout_width="142dp"
+        android:layout_height="26dp"
+        android:text="Date"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.933"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.719"
+        android:layout_below="@+id/newsText"
+        android:layout_alignRight="@+id/newsText"
+        android:layout_alignEnd="@+id/newsText"
+        android:layout_marginTop="22dp" />
+
+    <Button
+        android:id="@+id/refreshButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Refresh"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="401dp"
+        android:layout_marginTop="22dp"
+        android:layout_below="@+id/newsDate"
+        android:layout_alignLeft="@+id/newsTitle"
+        android:layout_alignStart="@+id/newsTitle"
+        android:layout_marginLeft="11dp"
+        android:layout_marginStart="11dp" />
+
+    <Button
+        android:id="@+id/updateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Update"
+        tools:layout_editor_absoluteX="280dp"
+        tools:layout_editor_absoluteY="401dp"
+        android:layout_alignBaseline="@+id/refreshButton"
+        android:layout_alignBottom="@+id/refreshButton"
+        android:layout_alignRight="@+id/newsDate"
+        android:layout_alignEnd="@+id/newsDate" />
+
+    <Button
+        android:id="@+id/settingsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Settings"
+        tools:layout_editor_absoluteX="147dp"
+        tools:layout_editor_absoluteY="457dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/updateButton"
+        android:layout_toStartOf="@+id/updateButton"
+        android:layout_marginRight="39dp"
+        android:layout_marginEnd="39dp" />
+
+</RelativeLayout>
