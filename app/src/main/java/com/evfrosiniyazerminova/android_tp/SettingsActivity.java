@@ -5,31 +5,49 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.RadioGroup;
 
+import ru.mail.weather.lib.Storage;
+import ru.mail.weather.lib.Topics;
+
 public class SettingsActivity extends AppCompatActivity {
 
-    public static final String APP_PREFERENCES = "mysettings";
-
-    private SharedPreferences mSettings;
+    Storage mStorage;
+    public static final String auto = "auto";
+    public static final String it = "it";
+    public static final String health = "health";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        mStorage = Storage.getInstance(SettingsActivity.this);
+
         RadioGroup radio = (RadioGroup) findViewById(R.id.categoriesRadioGroup);
+
+        switch (mStorage.loadCurrentTopic()) {
+            case auto:
+                radio.check(R.id.category1);
+                break;
+            case it:
+                radio.check(R.id.category2);
+                break;
+            case health:
+                radio.check(R.id.category3);
+                break;
+        }
 
         radio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch(checkedId) {
                     case R.id.category1:
-                        saveText("1");
+                        mStorage.saveCurrentTopic(Topics.AUTO);
                         break;
                     case R.id.category2:
-                        saveText("2");
+                        mStorage.saveCurrentTopic(Topics.IT);
                         break;
                     case R.id.category3:
-                        saveText("3");
+                        mStorage.saveCurrentTopic(Topics.HEALTH);
                         break;
 
 
@@ -39,31 +57,6 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-
-        mSettings = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
-        if(mSettings.contains("category")) {
-            String category = mSettings.getString("category", "");
-            switch (category) {
-                case "1":
-                    radio.check(R.id.category1);
-                    break;
-                case "2":
-                    radio.check(R.id.category2);
-                    break;
-                case "3":
-                    radio.check(R.id.category3);
-                    break;
-            }
-        } else {
-            radio.check(R.id.category1);
-        }
     }
 
-
-    void saveText(String text) {
-        mSettings = getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
-        SharedPreferences.Editor editor = mSettings.edit();
-        editor.putString("category", text);
-        editor.apply();
-    }
 }
