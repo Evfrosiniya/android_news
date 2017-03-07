@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -18,6 +20,7 @@ import java.util.Date;
 
 import ru.mail.weather.lib.News;
 import ru.mail.weather.lib.NewsLoader;
+import ru.mail.weather.lib.Scheduler;
 import ru.mail.weather.lib.Storage;
 import ru.mail.weather.lib.Topics;
 
@@ -25,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button settingsButton, refreshButton, updateButton;
     TextView titleTextView, textTextView, dateTextView;
+    Switch mSwitch;
     Storage mStorage;
 
 
@@ -35,16 +39,32 @@ public class MainActivity extends AppCompatActivity {
 
         settingsButton = (Button) findViewById(R.id.settingsButton);
         refreshButton = (Button) findViewById(R.id.refreshButton);
-        updateButton = (Button) findViewById(R.id.updateButton);
 
         titleTextView = (TextView) findViewById(R.id.newsTitle);
         textTextView = (TextView) findViewById(R.id.newsText);
         dateTextView = (TextView) findViewById(R.id.newsDate);
 
+        mSwitch = (Switch) findViewById(R.id.switchBackground);
+
         settingsButton.setOnClickListener(onSettingsClick);
         refreshButton.setOnClickListener(onRefreshClick);
 
         mStorage = Storage.getInstance(MainActivity.this);
+
+        mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            Scheduler scheduler = Scheduler.getInstance();
+            Intent intent = new Intent(MainActivity.this, NewsIntentService.class);
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    scheduler.schedule(MainActivity.this, intent, 10*1000L);
+                } else {
+                    scheduler.unschedule(MainActivity.this, intent);
+                }
+            }
+        });
+
 
         if (mStorage.loadCurrentTopic() == "" || mStorage.loadCurrentTopic() == null)
             mStorage.saveCurrentTopic(Topics.AUTO);
@@ -102,4 +122,19 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        News news = mStorage.getLastSavedNews();
+        Intent intent = new Intent(this, NewsIntentService.class);
+        intent.setAction(NewsIntentService.NEWS_LOAD_ACTION);
+        startService(intent);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
+    }
 }

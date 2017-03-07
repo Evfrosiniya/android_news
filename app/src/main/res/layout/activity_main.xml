@@ -68,18 +68,6 @@
         android:layout_marginStart="11dp" />
 
     <Button
-        android:id="@+id/updateButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Update"
-        tools:layout_editor_absoluteX="280dp"
-        tools:layout_editor_absoluteY="401dp"
-        android:layout_alignBaseline="@+id/refreshButton"
-        android:layout_alignBottom="@+id/refreshButton"
-        android:layout_alignRight="@+id/newsDate"
-        android:layout_alignEnd="@+id/newsDate" />
-
-    <Button
         android:id="@+id/settingsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -87,9 +75,19 @@
         tools:layout_editor_absoluteX="147dp"
         tools:layout_editor_absoluteY="457dp"
         android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/updateButton"
-        android:layout_toStartOf="@+id/updateButton"
-        android:layout_marginRight="39dp"
-        android:layout_marginEnd="39dp" />
+        android:layout_centerHorizontal="true" />
+
+    <Switch
+        android:id="@+id/switchBackground"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/refreshButton"
+        android:layout_alignBottom="@+id/refreshButton"
+        android:layout_alignEnd="@+id/newsDate"
+        android:layout_alignRight="@+id/newsDate"
+        android:layout_toEndOf="@+id/settingsButton"
+        android:checked="false"
+        android:text="Background"
+        tools:checked="false" />
 
 </RelativeLayout>
