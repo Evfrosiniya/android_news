@@ -51,10 +51,11 @@ public class MainActivity extends AppCompatActivity {
         mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             Scheduler scheduler = Scheduler.getInstance();
             Intent intent = new Intent(MainActivity.this, NewsIntentService.class);
-            long frequency = 20 * 1000;
+            long frequency = 60 * 1000;
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                intent.setAction(NewsIntentService.NEWS_LOAD_ACTION);
                 if (isChecked) {
                     mStorage.saveIsUpdateInBg(true);
                     scheduler.schedule(MainActivity.this, intent, frequency);
