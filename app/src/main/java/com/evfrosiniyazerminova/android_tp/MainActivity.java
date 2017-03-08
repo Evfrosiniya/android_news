@@ -14,12 +14,9 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import ru.mail.weather.lib.News;
-import ru.mail.weather.lib.NewsLoader;
 import ru.mail.weather.lib.Scheduler;
 import ru.mail.weather.lib.Storage;
 import ru.mail.weather.lib.Topics;
@@ -54,22 +51,23 @@ public class MainActivity extends AppCompatActivity {
         mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             Scheduler scheduler = Scheduler.getInstance();
             Intent intent = new Intent(MainActivity.this, NewsIntentService.class);
+            long frequency = 20 * 1000;
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    scheduler.schedule(MainActivity.this, intent, 10*1000L);
+                    mStorage.saveIsUpdateInBg(true);
+                    scheduler.schedule(MainActivity.this, intent, frequency);
                 } else {
+                    mStorage.saveIsUpdateInBg(false);
                     scheduler.unschedule(MainActivity.this, intent);
                 }
             }
         });
 
 
-        if (mStorage.loadCurrentTopic() == "" || mStorage.loadCurrentTopic() == null)
+        if (mStorage.loadCurrentTopic() == "")
             mStorage.saveCurrentTopic(Topics.AUTO);
-
-
 
     }
 
@@ -105,6 +103,9 @@ public class MainActivity extends AppCompatActivity {
             textTextView.setText(news.getBody());
             dateTextView.setText(DateFormat.format("MM/dd/yyyy HH:mm:ss", new Date(news.getDate())).toString());
         }
+
+        mSwitch.setChecked(mStorage.loadIsUpdateInBg());
+
     }
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {

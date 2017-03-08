@@ -2,15 +2,14 @@ package com.evfrosiniyazerminova.android_tp;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.content.Context;
 import android.support.v4.content.LocalBroadcastManager;
+import android.widget.Toast;
 
 import java.io.IOException;
 
 import ru.mail.weather.lib.News;
 import ru.mail.weather.lib.NewsLoader;
 import ru.mail.weather.lib.Storage;
-import ru.mail.weather.lib.Topics;
 
 
 public class NewsIntentService extends IntentService {
@@ -31,11 +30,10 @@ public class NewsIntentService extends IntentService {
 
             try {
                 NewsLoader newsLoader = new NewsLoader();
-
                 News news = newsLoader.loadNews(Storage.getInstance(this).loadCurrentTopic());
-
                 if (news != null) {
                     Storage.getInstance(this).saveNews(news);
+
                     broadcastManager.sendBroadcast(new Intent(NEWS_CHANGED_ACTION));
                 } else {
                     broadcastManager.sendBroadcast(new Intent(NEWS_ERROR_ACTION));
